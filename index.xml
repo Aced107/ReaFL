@@ -34,6 +34,26 @@ Mute tool: left click toggles an item's mute (selection untouched), right click 
         <source platform="linux64" file="reaper_reafl-x86_64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.0/reaper_reafl-x86_64.so</source>
         <source platform="linux-aarch64" file="reaper_reafl-aarch64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.0/reaper_reafl-aarch64.so</source>
       </version>
+      <version name="0.2.1" author="Armaan" time="2026-10-29T21:34:17Z">
+        <changelog><![CDATA[- In the Mute tool (and any future non-Default tool) REAPER's own left/right click and drag
+  behaviour is now blocked everywhere in the arrange area, including empty space and below
+  the last track: no marquee selection, deselecting, edit cursor moves, item moves or
+  context menu. Clicks on items still mute / delete as before.
+- Right click on empty arrange space no longer opens the context menu in the Mute tool.
+- Ctrl / Alt / Win (Cmd / Option / Control) clicks in the arrange area are blocked too while
+  a tool is active, so a tool never falls back to REAPER's mouse actions. They don't mute or
+  delete either; use the Default tool (1) for REAPER's modifier clicks.
+- Still passed through: mouse wheel (scroll / zoom with any modifiers), middle button, hover,
+  the keyboard (including the menu key context menu), and everything outside the arrange
+  area (ruler, track panel, scrollbars, mixer, other windows).
+- A press that started in the Default tool finishes normally if you switch tools mid-drag,
+  and a blocked press always releases the mouse capture on button-up (or when capture is
+  lost), so drags can't get stuck.]]></changelog>
+        <source platform="win64" file="reaper_reafl-x64.dll">https://github.com/Aced107/ReaFL/releases/download/v0.2.1/reaper_reafl-x64.dll</source>
+        <source platform="darwin" file="reaper_reafl.dylib">https://github.com/Aced107/ReaFL/releases/download/v0.2.1/reaper_reafl.dylib</source>
+        <source platform="linux64" file="reaper_reafl-x86_64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.1/reaper_reafl-x86_64.so</source>
+        <source platform="linux-aarch64" file="reaper_reafl-aarch64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.1/reaper_reafl-aarch64.so</source>
+      </version>
     </reapack>
   </category>
   <metadata>
