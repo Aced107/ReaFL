@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <index version="1" name="ReaFL">
   <category name="ReaFL">
-    <reapack name="ReaFL.lua" type="script" desc="ReaFL: FL Studio-style tools for REAPER">
+    <reapack name="ReaFL.lua" type="extension" desc="ReaFL: FL Studio-style tools for REAPER">
       <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0\fswiss Helvetica;}}\f0\fs20{\b\fs28 ReaFL}\par FL Studio-style tools for REAPER's arrange view.\par\par{\b Setup:} after installing, run {\i ReaFL - Setup (run once after install)} from the Actions list, then restart REAPER.\par\par{\b Tools:}\par\bullet  Default (key 1): normal REAPER mouse behaviour.\par\bullet  Mute (key T): left click an item toggles its mute, right click deletes it.\par\par{\b Requirements:} REAPER 7.03+; js_ReaScriptAPI (needed for the Mute tool's clicks; install it from the ReaTeam Extensions repository, which ReaPack includes by default); SWS recommended.\par Undo setup with {\i ReaFL - Uninstall setup}.\par}]]></description>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0\fswiss Helvetica;}}\f0\fs20{\b\fs28 ReaFL}\par FL Studio-style tools for REAPER's arrange view (native extension).\par\par{\b Setup:} none. Install, then restart REAPER. On first start ReaFL adds the shortcuts 1 (Default tool) and T (Mute tool) and opens a ReaFL toolbar. Keys you already use are left alone.\par\par{\b Tools:}\par\bullet  Default (key 1): normal REAPER mouse behaviour.\par\bullet  Mute (key T): left click an item toggles its mute (drag across items to mute/unmute them), right click deletes it. Clicks with Ctrl/Alt/Win and clicks on empty space behave normally.\par\par{\b Requirements:} REAPER 7 (tested on 7.84). No other extensions needed.\par Remove the shortcuts and toolbar with {\i ReaFL: Remove ReaFL shortcuts and toolbar}.\par Upgrading from 0.1.0 (Lua) is automatic: its shortcuts, toolbar and startup hook are converted on first start.\par}]]></description>
         <link rel="website">https://github.com/Aced107/ReaFL</link>
       </metadata>
       <version name="0.1.0" author="Armaan" time="2026-10-29T20:00:00Z">
         <changelog><![CDATA[Initial release: tool modes with shortcuts (1 = Default, T = Mute) and a ReaFL toolbar.
 Mute tool: left click toggles an item's mute (selection untouched), right click deletes it.]]></changelog>
-        <source main="main" file="ReaFL - Default tool.lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/ReaFL%20-%20Default%20tool.lua</source>
-        <source main="main" file="ReaFL - Mute tool.lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/ReaFL%20-%20Mute%20tool.lua</source>
-        <source main="main" file="ReaFL - Setup (run once after install).lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/ReaFL%20-%20Setup%20%28run%20once%20after%20install%29.lua</source>
-        <source main="main" file="ReaFL - Uninstall setup.lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/ReaFL%20-%20Uninstall%20setup.lua</source>
-        <source file="lib/reafl_core.lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/lib/reafl_core.lua</source>
-        <source file="lib/reafl_engine.lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/lib/reafl_engine.lua</source>
-        <source file="lib/reafl_setup_common.lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/lib/reafl_setup_common.lua</source>
-        <source file="lib/reafl_startup.lua">https://raw.githubusercontent.com/Aced107/ReaFL/main/ReaFL/lib/reafl_startup.lua</source>
+        <source main="main" file="ReaFL - Default tool.lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/ReaFL%20-%20Default%20tool.lua</source>
+        <source main="main" file="ReaFL - Mute tool.lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/ReaFL%20-%20Mute%20tool.lua</source>
+        <source main="main" file="ReaFL - Setup (run once after install).lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/ReaFL%20-%20Setup%20%28run%20once%20after%20install%29.lua</source>
+        <source main="main" file="ReaFL - Uninstall setup.lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/ReaFL%20-%20Uninstall%20setup.lua</source>
+        <source file="lib/reafl_core.lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/lib/reafl_core.lua</source>
+        <source file="lib/reafl_engine.lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/lib/reafl_engine.lua</source>
+        <source file="lib/reafl_setup_common.lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/lib/reafl_setup_common.lua</source>
+        <source file="lib/reafl_startup.lua" type="script">https://raw.githubusercontent.com/Aced107/ReaFL/f63574030324da6039d264da73a779d74cdb30ff/ReaFL/lib/reafl_startup.lua</source>
+      </version>
+      <version name="0.2.0" author="Armaan" time="2026-10-29T21:14:25Z">
+        <changelog><![CDATA[Rewritten as a native REAPER extension (C++). No setup script any more.
+
+- Install via ReaPack and restart: shortcuts 1 (Default tool) and T (Mute tool) and a ReaFL toolbar are added automatically on first start. Keys you already bound are left alone, and if you remove them they stay removed.
+- Mute tool now intercepts arrange-view clicks natively (no js_ReaScriptAPI needed, no mouse modifier changes):
+  - left click toggles an item's mute without changing the selection
+  - drag across items to mute/unmute them all (the first item decides), one undo point
+  - right click deletes the item (undoable), no context menu
+  - double-clicks do nothing extra; clicks with Ctrl/Alt/Win and clicks on empty space behave normally
+- New actions: "ReaFL: Remove ReaFL shortcuts and toolbar" and "ReaFL: Reinstall default shortcuts and toolbar".
+- Upgrading from 0.1.0 converts its shortcuts and toolbar to the new actions, removes the `__startup.lua` hook and clears its saved state.]]></changelog>
+        <source platform="win64" file="reaper_reafl-x64.dll">https://github.com/Aced107/ReaFL/releases/download/v0.2.0/reaper_reafl-x64.dll</source>
+        <source platform="darwin" file="reaper_reafl.dylib">https://github.com/Aced107/ReaFL/releases/download/v0.2.0/reaper_reafl.dylib</source>
+        <source platform="linux64" file="reaper_reafl-x86_64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.0/reaper_reafl-x86_64.so</source>
+        <source platform="linux-aarch64" file="reaper_reafl-aarch64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.0/reaper_reafl-aarch64.so</source>
       </version>
     </reapack>
   </category>
   <metadata>
-    <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0\fswiss Helvetica;}}\f0\fs20{\b\fs28 ReaFL}\par FL Studio-style tools for REAPER's arrange view.\par\par{\b Setup:} after installing, run {\i ReaFL - Setup (run once after install)} from the Actions list, then restart REAPER.\par\par{\b Tools:}\par\bullet  Default (key 1): normal REAPER mouse behaviour.\par\bullet  Mute (key T): left click an item toggles its mute, right click deletes it.\par\par{\b Requirements:} REAPER 7.03+; js_ReaScriptAPI (needed for the Mute tool's clicks; install it from the ReaTeam Extensions repository, which ReaPack includes by default); SWS recommended.\par Undo setup with {\i ReaFL - Uninstall setup}.\par}]]></description>
+    <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0\fswiss Helvetica;}}\f0\fs20{\b\fs28 ReaFL}\par FL Studio-style tools for REAPER's arrange view (native extension).\par\par{\b Setup:} none. Install, then restart REAPER. On first start ReaFL adds the shortcuts 1 (Default tool) and T (Mute tool) and opens a ReaFL toolbar. Keys you already use are left alone.\par\par{\b Tools:}\par\bullet  Default (key 1): normal REAPER mouse behaviour.\par\bullet  Mute (key T): left click an item toggles its mute (drag across items to mute/unmute them), right click deletes it. Clicks with Ctrl/Alt/Win and clicks on empty space behave normally.\par\par{\b Requirements:} REAPER 7 (tested on 7.84). No other extensions needed.\par Remove the shortcuts and toolbar with {\i ReaFL: Remove ReaFL shortcuts and toolbar}.\par Upgrading from 0.1.0 (Lua) is automatic: its shortcuts, toolbar and startup hook are converted on first start.\par}]]></description>
     <link rel="website">https://github.com/Aced107/ReaFL</link>
   </metadata>
 </index>
