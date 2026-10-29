@@ -1,0 +1,27 @@
+-- @description ReaFL: FL Studio-style tools for REAPER
+-- @author Armaan
+-- @version 0.1.0
+-- @changelog
+--   Initial release: tool modes with shortcuts (1 = Default, T = Mute) and a ReaFL toolbar.
+--   Mute tool: left click toggles an item's mute (selection untouched), right click deletes it.
+-- @website https://github.com/Aced107/ReaFL
+-- @metapackage
+-- @provides
+--   [main] ReaFL - Default tool.lua
+--   [main] ReaFL - Mute tool.lua
+--   [main] ReaFL - Setup (run once after install).lua
+--   [main] ReaFL - Uninstall setup.lua
+--   [nomain] lib/reafl_core.lua
+--   [nomain] lib/reafl_engine.lua
+--   [nomain] lib/reafl_setup_common.lua
+--   [nomain] lib/reafl_startup.lua
+-- @about
+--   # ReaFL
+--   FL Studio-style tools for REAPER's arrange view.
+--   After installing, run "ReaFL - Setup (run once after install)" from the Actions list,
+--   then restart REAPER.
+--
+--   Requirements: REAPER 7.03+, js_ReaScriptAPI (ReaPack > ReaTeam Extensions),
+--   SWS recommended.
+--
+-- This file is the ReaPack package definition (metapackage); it is not installed.
