@@ -54,6 +54,97 @@ Mute tool: left click toggles an item's mute (selection untouched), right click 
         <source platform="linux64" file="reaper_reafl-x86_64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.1/reaper_reafl-x86_64.so</source>
         <source platform="linux-aarch64" file="reaper_reafl-aarch64.so">https://github.com/Aced107/ReaFL/releases/download/v0.2.1/reaper_reafl-aarch64.so</source>
       </version>
+      <version name="0.3.0" author="Armaan" time="2026-10-30T07:14:21Z">
+        <changelog><![CDATA[- FL's delete animation: every item a ReaFL tool deletes (Delete click/drag, Draw/Paint/Mute
+  right button, Slice right-button cut-and-delete) leaves a pale grey rounded "ghost" in
+  its place that only fades (clear for ~115 ms, gone by ~480 ms; several overlap, each on
+  its own clock). The item itself is deleted at once; the ghost touches no project state
+  and makes no undo point, follows scroll/zoom, and is not shown for undo or REAPER's own
+  delete. Off switch: `[ReaFL] delete_ghost=0` in `reaper-extstate.ini` (or
+  `SetExtState("ReaFL","delete_ghost","0",true)`). Test API: `ReaFL_Test_Ghosts`,
+  `ReaFL_Test_GhostClock`.
+- Always-on log file `<resource path>/ReaFL/reafl.log` (1 MB cap, one `.old` kept) with
+  version/platform, tool switches, setup/migration actions and console messages.
+- Code split into building blocks (click blocking, gesture engine, item actions, one undo
+  point per gesture, cursors); tools are declared in `src/tools/catalog.cpp`.
+- Tools show their own cursor everywhere in the arrange view (REAPER's hover cursor
+  changes are overridden); Mute uses REAPER's arrow-with-✕ cursor (`arrowdel`, shared with
+  Delete).
+- Right-click delete now makes its undo point when the button is released.
+- New tools with toggle actions, default keys and toolbar buttons: Draw (P), Paint (B),
+  Delete (D), Slip (S), Slice (C), Select (E), Zoom (Z), Playback (Y). Each blocks REAPER's
+  mouse in the arrange area and has its own cursor. Draw and Paint: right click deletes an
+  item, right drag deletes every item passed over (one undo point). The rest do nothing yet.
+- Draw (P), left button: a click in empty space places a copy of the brush item at the
+  nearest grid line on the track under the mouse; keep the button held and the copy follows
+  the mouse (across tracks). On an item: click selects it and makes it the brush, drag the
+  body to move it (snapped, to the track under the mouse), drag an edge to resize it from
+  that side, double-click a MIDI item to open the MIDI editor. Edge/body cursors.
+- Paint (B), left button: a click places one copy; a drag paints back-to-back copies along
+  the start track, skipping over existing items (vertical drags add nothing). Items: as Draw.
+- Delete (D), left or right button: a click (or double-click) deletes the item under the
+  mouse, a drag deletes every item it touches, horizontally or vertically; one undo point
+  per click or drag. Shift and Alt act as plain (also Alt pressed mid-drag). Ctrl+click
+  selects only that item, Ctrl+drag draws a box and selects every item it touches,
+  replacing the selection (nothing deleted, no undo point).
+- The brush is the item last clicked, moved or resized with Draw or Paint (audio or MIDI).
+  Copies are pooled: MIDI copies share the brush's MIDI pool, audio copies the same file
+  and take settings. It is saved with the project and in ReaFL's state, so it survives tool
+  switches and reopening; if the brush item was deleted its saved copy is still used.
+  Every Draw/Paint action is one undo point ("ReaFL: Draw item", "Paint 3 items", "Move
+  item", "Resize item").
+- Updating from 0.2.x adds the new keys (unless you use them) and toolbar buttons once;
+  keys/buttons you removed are not re-added.
+- Mute: a left drag may start on empty space (the first item reached decides mute or
+  unmute); a right drag deletes every item passed over (one undo point).
+- Remove then Reinstall: removing the shortcuts now also drops the "disabled default" key
+  lines REAPER saves for the keys ReaFL had taken, so REAPER's own default actions for
+  P, D, S, C, E, Z, Y come back after the restart.
+- Draw/Paint: picking the brush deselects other items without a separate "Unselect all
+  items" undo point, so every Draw/Paint action undoes in one step.
+- Item hit-testing falls back to arrange geometry when another window covers the arrange
+  view at that point.
+- Slice (C): left click on an item cuts it at the nearest grid line (exact pointer time with
+  snap off); a left drag shows a vertical preview line at the snapped position over the
+  tracks from the press row to the current row, and on release cuts every item on those
+  tracks there (vertical, horizontal or diagonal drags). Right click/drag (may start on
+  empty space) cuts and deletes the piece nearest the mouse. Ctrl+click selects the item,
+  Ctrl+drag box-selects; Shift+drag cuts only the item under the release point; Shift/Alt
+  clicks and double-clicks' second click do nothing. Both pieces keep mute and content
+  (audio take offset continues); slicing clears the selection; one undo point per gesture
+  ("ReaFL: Slice item" / "Slice 3 items"). Wheel, zoom and middle drag still reach REAPER.
+- Hidden tracks and the children of a collapsed folder are untouchable by every tool (clicks,
+  drags and Slice lines skip them; a drag below the last track stops at the last visible
+  one). Locked items are ignored by every hit-test. A drag that leaves the arrange view hits
+  nothing outside it (items scrolled out of view are never edited blind); a Slice drag
+  released outside the view cuts at the view's edge, where its line is drawn.
+- Draw/Paint: a move or resize that ends where it started (e.g. at the minimum length)
+  restores the item exactly and makes no undo point.
+- Alt disables snapping while held, in every tool that snaps (Draw new/move/resize, Paint,
+  Slice cut and preview line), also mid-drag. Releasing Alt mid-drag works as in FL: Slice
+  snaps to the grid again; Draw (new, move, resize) keeps the off-grid offset the item had
+  at Alt-up and moves in whole grid steps from there; Paint snaps only at the press (unless
+  Alt is held at the press), so Alt later changes nothing. An Alt press in Draw/Paint acts
+  like a plain press (previously blocked).
+- FL parity (FL re-runs of Oct 30): Draw Shift+drag in empty space fill-paints like Paint
+  (one undo point); Shift+drag on an item makes a pooled clone on the item's own track
+  ("ReaFL: Clone item", the brush stays the original); Ctrl on an item selects it without
+  moving it, Ctrl+drag in empty space box-selects. A double-click on an item in Draw/Paint
+  runs REAPER's own item double-click mouse modifier (MIDI editor / item properties by
+  default, or whatever is configured) and adds no undo point. Paint Shift places one copy
+  at the release point (snapped, press track); Paint Ctrl does nothing. Draw/Paint item
+  body cursor: REAPER's arrow with 4-way cross (`cur00001`). Mute: Alt acts as plain, a
+  plain press clears the item selection, Ctrl+click selects that item and Ctrl+drag
+  box-selects (nothing muted). Selection changes never make undo points (FL records them).
+- ReaScript API for in-process tests (`ReaFL_GetTool`, `ReaFL_SetTool`, `ReaFL_Log`, `ReaFL_GetBrush`,
+  `ReaFL_Test_*`, including `ReaFL_Test_AutoAnswer` for message boxes, `ReaFL_Test_Overlay` and
+  `ReaFL_Test_DoubleClickAction`) and Lua tests in
+  `tests/`, plus box helpers (restart, Remove/Reinstall cycle, real-pointer cursor check).]]></changelog>
+        <source platform="win64" file="reaper_reafl-x64.dll">https://github.com/Aced107/ReaFL/releases/download/v0.3.0/reaper_reafl-x64.dll</source>
+        <source platform="darwin" file="reaper_reafl.dylib">https://github.com/Aced107/ReaFL/releases/download/v0.3.0/reaper_reafl.dylib</source>
+        <source platform="linux64" file="reaper_reafl-x86_64.so">https://github.com/Aced107/ReaFL/releases/download/v0.3.0/reaper_reafl-x86_64.so</source>
+        <source platform="linux-aarch64" file="reaper_reafl-aarch64.so">https://github.com/Aced107/ReaFL/releases/download/v0.3.0/reaper_reafl-aarch64.so</source>
+      </version>
     </reapack>
   </category>
   <metadata>
